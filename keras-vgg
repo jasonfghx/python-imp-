@@ -1,0 +1,103 @@
+import pandas as pd
+from glob import glob
+import os
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+
+from keras.utils import np_utils
+from keras.preprocessing import image
+from __future__ import print_function
+import keras
+
+from keras.preprocessing.image import ImageDataGenerator
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Conv2D, MaxPooling2D
+from itertools import chain
+import numpy as np # linear algebra
+from skimage.io import imread
+
+
+
+
+
+base_bone_dir = ('E://temp')
+age_df = pd.read_csv(os.path.join(base_bone_dir, 'boneage-training-dataset.csv'))
+
+age_df['path'] = age_df['id'].map(lambda x: os.path.join(base_bone_dir,
+                                                                   'boneage-training-dataset', 
+                                                         '{}.png'.format(x)))
+
+fig, m_axs = plt.subplots(4, 4, figsize = (16, 16))
+for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
+    c_ax.imshow(c_x[:,:,0], cmap = 'bone', vmin = -3, vmax = 3)
+    c_ax.set_title('%2.0f months' % (c_y*boneage_div+boneage_mean))
+    c_ax.axis('off')
+
+data=age_df
+print('Scans found:', len(data), ', Total Headers', data.shape[0])
+data=age_df.drop(age_df.index[11688:12611])
+data['exists'] = data['path'].map(os.path.exists)
+print(data['exists'].sum(), 'images found of', data.shape[0], 'total')
+pull1=np.where(data["exists"]==False)[0]
+data=data.drop(data.index[pull1])
+data['gender'] = data['male'].map(lambda x: 'male' if x else 'female')
+boneage_mean = data['boneage'].mean()
+boneage_div = 2*data['boneage'].std()
+data['boneage_zscore'] = data['boneage'].map(lambda x: (x-boneage_mean)/boneage_div)
+data.dropna(inplace = True)
+data[['boneage', 'male', 'boneage_zscore']].hist(figsize = (10, 5))
+data['boneage_category'] = pd.cut(data['boneage'], 10)
+new_age_df = data.groupby(['boneage_category', 'male']).apply(lambda x: x.sample(500, replace = True)
+                                                      ).reset_index(drop = True)
+print('New Data Size:', new_age_df.shape[0], 'Old Size:', age_df.shape[0])
+new_age_df[['boneage', 'male']].hist(figsize = (10, 5))
+from sklearn.model_selection import train_test_split
+train_df, valid_df = train_test_split(new_age_df, 
+                                   test_size = 0.25, 
+                                   random_state = 2018,
+                                   stratify = new_age_df['boneage_category'])
+print('train', train_df.shape[0], 'validation', valid_df.shape[0])
+def flow_from_dataframe(img_data_gen, in_df, path_col, y_col, **dflow_args):
+    base_dir = os.path.dirname(in_df[path_col].values[0])
+    print('## Ignore next message from keras, values are replaced anyways')
+    df_gen = img_data_gen.flow_from_directory(base_dir, 
+                                     class_mode = 'sparse',
+                                    **dflow_args)
+    df_gen.filenames = in_df[path_col].values
+    df_gen.classes = np.stack(in_df[y_col].values)
+    df_gen.samples = in_df.shape[0]
+    df_gen.n = in_df.shape[0]
+    df_gen._set_index_array()
+    df_gen.directory = '' # since we have the full path
+    print('Reinserting dataframe: {} images'.format(in_df.shape[0]))
+    return df_gen
+from keras.preprocessing.image import ImageDataGenerator
+from keras.applications.vgg16 import preprocess_input
+IMG_SIZE = (384, 384)
+core_idg = ImageDataGenerator(samplewise_center=False, 
+                              samplewise_std_normalization=False, 
+                              horizontal_flip = True, 
+                              vertical_flip = False, 
+                              height_shift_range = 0.15, 
+                              width_shift_range = 0.15, 
+                              rotation_range = 5, 
+                              shear_range = 0.01,
+                              fill_mode = 'nearest',
+                              zoom_range=0.25,
+                              preprocessing_function = preprocess_input)
+train_gen = flow_from_dataframe(core_idg, train_df, 
+                             path_col = 'path',
+                            y_col = 'boneage_zscore', 
+                            target_size = IMG_SIZE,
+                             color_mode = 'rgb',
+                            batch_size = 32)
+
+valid_gen = flow_from_dataframe(core_idg, valid_df, 
+                             path_col = 'path',
+                            y_col = 'boneage_zscore', 
+                            target_size = IMG_SIZE,
+                             color_mode = 'rgb',
+                            batch_size = 256) # we can use much larger batches for evaluation
+# used a fixed dataset for evaluating the algorithm
