@@ -1,0 +1,40 @@
+Py3指令
+
+import urllib.request
+
+from bs4 impor BeautifulSoup as bs     # "B" 跟"S" 是大寫有看到嗎?
+
+
+
+
+URL = "http://www.imis.ncku.edu.tw/bin/home.php"
+
+response = urllib.request.urlopen(URL)
+
+print(response.read)
+
+加入if 迴圈
+
+
+
+
+===與上述無關,下次主題===
+
+撈網址補充
+
+all _href = soup.find_all('a')   # 找出html中 a開頭的  所以<a> </a> 都會顯示
+
+若再加上
+
+for L in all_href:
+
+    print(L['href']) #只顯示該網址
+
+
+
+
+範例
+
+ [<a href="https://yahoo.com.tw">雅虎</a>,<a>9453 </a>]
+
+→→  https://yahoo.com.tw    +    9453
