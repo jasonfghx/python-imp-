@@ -1,1 +1,3 @@
 aa=data1.drop(data1.index[[10,2]])#drop col according to index
+
+https://chrisalbon.com/python/data_wrangling/pandas_dropping_column_and_rows/
