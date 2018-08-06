@@ -1,0 +1,1 @@
+aa=data1.drop(data1.index[[10,2]])#drop col according to index
