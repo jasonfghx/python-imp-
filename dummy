@@ -1,0 +1,9 @@
+dummy_fields = ['red blood cells', 'pus cell', 'pus cell clumps', 'bacteria']
+dummy_fields = ['red blood cells', 'pus cell']
+for each in dummy_fields:
+    # get_dummies处理数据，参数prefix是指处理之后数据的前缀
+    # 例如mnth共有12个值，处理之后属性mnth将会被分解成12个属性，每个属性用0或者1表示
+    # mnth将被分解为mnth_1, mnth_2, ..., mnth_12
+    # 原本mnth=1的情况将变成 mnth_1 = 1，其余mnth_2,...,mnth_12都是0
+    dummies = pd.get_dummies( datacat.loc[:, each], prefix=each,dummy_na=False ) 
+    riders = pd.concat( [riders, dummies], axis = 1 )
