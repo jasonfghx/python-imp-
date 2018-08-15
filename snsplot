@@ -1,3 +1,8 @@
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+matplotlib.style.use('ggplot')
+import seaborn as sns
 plt.title("fig2")
 sns.violinplot(x="appetite_",y="hemoglobin",data=data1_new,hue="red_blood_cells",split="1",scale_hue="2")
 sns.violinplot(x="appetite_",y="hemoglobin",data=data1_new,hue="red_blood_cells")
