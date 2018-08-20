@@ -1,0 +1,141 @@
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.utils.vis_utils import plot_model
+from sklearn import metrics
+classifier = Sequential()
+classifier.add(Dense(units = 32, kernel_initializer = 'uniform', activation ='relu',input_dim = 20))
+classifier.add(Dense(units = 16, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
+
+classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy',metrics = ['accuracy'])
+classifier.fit(X_train, y_train, batch_size = 2, epochs = 100)
+ print(classifier.summary())
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
+from sklearn import metrics
+from sklearn.metrics import confusion_matrix
+
+df = pd.read_csv('voice.csv')
+name=X.columns.values
+X=pd.DataFrame(X)
+X.columns=aaa[0:20]
+X=df.iloc[:, :-1]
+X1=df.drop(df.index[[0,2,3,20]],axis=0)
+Y=df.iloc[:, -1:]
+gender_encoder = LabelEncoder()
+y = gender_encoder.fit_transform(Y)
+
+scaler = StandardScaler()
+scaler.fit(X)
+X = scaler.transform(X)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,random_state=1)
+
+
+https://www.kaggle.com/javapocalypse/breast-cancer-classification-in-keras-
+using-ann
+
+y_pred = round(pd.DataFrame(classifier.predict(X_test)))
+a=round(y_pred)
+print(metrics.accuracy_score(y_test, y_pre))
+plot_model()
+ plot_model(classifier, to_file='model_plot.png', show_shapes=True, show_layer_names=True) 
+te=confusion_matrix(y_test,y_pred)
+confusion_matrix(y_pred,y_test)
+url="https://raw.githubusercontent.com/2blam/ML/master/deep_learning/Churn_Modelling.csv"
+dataset = pd.read_csv(url,sep=",")
+df1=df1.drop(df1.columns[[0]],axis=1)
+
+
+
+dataset = pd.read_csv("Churn_Modelling.csv")
+X = pd.DataFrame(dataset.iloc[:, 3:13].values ) #column index 3 - 12 
+y = pd.DataFrame(dataset.iloc[:, 13].values) #Exited? 1 - true; 0 - false
+
+# encode categorical data 
+# country
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+labelencoder_X_1 = LabelEncoder()
+X.loc[:, 1] = labelencoder_X_1.fit_transform(X.loc[:, 1])
+# gender
+labelencoder_X_2 = LabelEncoder()
+X.loc[:, 2] = labelencoder_X_2.fit_transform(X.loc[:, 2])
+
+# create dummy variables for country X X X
+onehotencoder = OneHotEncoder(categorical_features=[1])
+X = onehotencoder.fit_transform(X).toarray()
+X = X[:, 1:] # avoid dummy variable trap, remove 1 dummy variable column
+
+# split into training and testing dataset
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state=0) # 25% for testing dataset
+
+# re-scale feature values
+from sklearn.preprocessing import StandardScaler
+sc_X = StandardScaler()
+X_train = sc_X.fit_transform(X_train)
+X_test = sc_X.transform(X_test) 
+
+# create neural network
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+
+# initalize neural network; 
+# NOTE: more than 1 hidden layers, in theory, we call it deep neural network
+classifier = Sequential()
+
+# add the input layer & 1st hidden layer
+classifier.add(Dense(output_dim=32,
+                     init="uniform",
+                     activation="relu",
+                     input_dim=11)) #set input_dim for the 1st layer only
+
+# add 2nd hidden layer
+classifier.add(Dense(output_dim=16,
+                     init="uniform",
+                     activation="relu"))
+                     
+# add output layer
+# 1 class (e.g. yes vs no): output_dim = 1 AND activation = sigmoid
+# n classes (one hot encode): output_dim = n AND activation = softmax
+classifier.add(Dense(output_dim=1,
+                     init="uniform",
+                     activation="sigmoid"))
+# compile neural network
+# adam - Adaptive Moment Estimation 
+# binary_crossentropy - https://keras.io/objectives/
+classifier.compile(optimizer="rmsprop",
+                   loss="binary_crossentropy",
+                   metrics=["accuracy"])
+
+# fit training data to neural network
+# batch_size - update the weight only after finish a batch of records
+# epoch - 1 epoch is equal to the whole training set passed through the neural network
+classifier.fit(X_train, y_train, batch_size=10, nb_epoch=100)
+ 
+# save the model
+from keras.models import load_model
+classifier.save("nn_model.h5")
+# load the model
+del classifier
+classifier = load_model("nn_model.h5")
+
+# predict
+y_pred = classifier.predict(X_test) #probabilty
+y_pre=round(pd.DataFrame(y_pred))
+y_pred = (y_pred > 0.5)
+
+# confusion matrix
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pre)
+
+
+dataset["Geography"].value_counts()
