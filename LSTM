@@ -34,3 +34,8 @@ df = pd.read_csv('household_power_consumption.txt', sep=';',
                  
 for j in range(0,7):        
         df.iloc[:,j]=df.iloc[:,j].fillna(df.iloc[:,j].mean())#補遺漏值
+
+df.Global_active_power.resample('2D').sum().plot(title='Global_active_power resampled over day for sum')         
+plt.tight_layout()
+plt.show()   #https://blog.csdn.net/wangshuang1631/article/details/52314944
+
