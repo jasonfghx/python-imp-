@@ -32,3 +32,5 @@ df = pd.read_csv('household_power_consumption.txt', sep=';',
                  parse_dates={'dt' : ['Date', 'Time']}, infer_datetime_format=True, 
                  low_memory=False, na_values=['nan','?'], index_col='dt')#read file
                  
+for j in range(0,7):        
+        df.iloc[:,j]=df.iloc[:,j].fillna(df.iloc[:,j].mean())#補遺漏值
