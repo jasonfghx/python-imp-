@@ -32,8 +32,3 @@ df = pd.read_csv('household_power_consumption.txt', sep=';',
                  parse_dates={'dt' : ['Date', 'Time']}, infer_datetime_format=True, 
                  low_memory=False, na_values=['nan','?'], index_col='dt')#read file
                  
-<ol>
-<li>Bird</li>
-<li>McHale</li>
-<li>Parish</li>
-</ol>               
