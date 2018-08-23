@@ -120,6 +120,40 @@ model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam',metrics = ['accuracy'])
 
 history = model.fit(train_X, train_y, epochs=20, batch_size=70, validation_data=(test_X, test_y), verbose=2, shuffle=False)
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper right')
+plt.show()
 
+# make a prediction
+yhat = model.predict(test_X)
+test_X = test_X.reshape((test_X.shape[0], 7))
+# invert scaling for forecast
+inv_yhat = np.concatenate((yhat, test_X[:, -6:]), axis=1)
+inv_yhat = scaler.inverse_transform(inv_yhat)
+inv_yhat = inv_yhat[:,0]
+# invert scaling for actual
+test_y = test_y.reshape((len(test_y), 1))
+inv_y = np.concatenate((test_y, test_X[:, -6:]), axis=1)
+inv_y = np.concatenate(( test_X[:, -6:],test_y), axis=1)
+inv_y = scaler.inverse_transform(inv_y)
+inv_y = inv_y[:,0]
+# calculate RMSE
+rmse = np.sqrt(mean_squared_error(inv_y, inv_yhat))
+print('Test RMSE: %.3f' % rmse)
+
+fig = plt.gcf()
+
+aa=[x for x in range(400,800)]
+plt.figure(figsize=(15,10))
+plt.plot(aa, inv_y[400:800], marker='.', label="actual")
+plt.plot(aa, inv_yhat[400:800], 'r', label="prediction")
+plt.ylabel('Global_active_power', size=15)
+plt.xlabel('Time step', size=15)
+plt.legend(fontsize=15)
+plt.show()
   #https://blog.csdn.net/wangshuang1631/article/details/52314944
 
