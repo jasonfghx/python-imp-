@@ -3,3 +3,5 @@ aa=data1.drop(data1.index[[10,2]])#drop col according to index
 https://chrisalbon.com/python/data_wrangling/pandas_dropping_column_and_rows/
 
 Totals = data1_new["class_"].value_counts() #for count
+
+label_counts = label.value_counts()# "label" should be series
