@@ -1,0 +1,6 @@
+url="http://phs.nsc.com.tw/z/zk/zk1/zkparse_590_30.djhtm"
+df=pd.read_html(url)[2]
+df=df.drop(0).reset_index(drop=True)
+df.columns=df.loc[0]
+num=df['股票名稱'].apply(lambda x:x[:4])
+num=df['股票名稱'][0:3].astype("str")
