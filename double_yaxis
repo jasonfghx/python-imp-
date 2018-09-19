@@ -19,3 +19,18 @@ ax2.set_ylabel('Y values for ln(x)')
 ax2.set_xlabel('Same X for both exp(-x) and ln(x)')
 
 plt.show()
+
+========================================================
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
+ax1.plot(data1.index, data1["original cond (mS/cm)"], color='green', label='原水電導度')
+ax1.plot(data1.index, data1["condense (mS/cm)"],  color='skyblue', label='濃水電導度')
+ax1.plot(data1.index, data1["discharge (mS/cm)"], color='gray', label='放流水電導度')
+ax1.plot(data1.index, data1["fresh"], color='fuchsia', label='淡水電導度')
+plt.xlabel('次')
+plt.rcParams['font.family']='SimHei'
+plt.ylabel('電導度')
+plt.legend()
+
+ax2 = ax1.twinx()  # this is the important function
+ax2.plot(data1.index,data1["rmrate"] , 'r')
