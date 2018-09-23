@@ -99,11 +99,15 @@ myfont = FontProperties(fname=r'E:\\ana\\Lib\\site-packages\\matplotlib\\mpl-dat
 fig = plt.figure()
 
 ax1 = fig.add_subplot(111)
+
 ax1.plot(x, y1)
+
 ax1.set_ylabel('電導度',fontproperties=myfont)
+
 ax1.set_title("水質",fontproperties=myfont)
 
 ax2 = ax1.twinx()  # this is the important function
+
 ax2.plot(x, y2, 'r')
 
 ax2.set_ylabel('電流',fontproperties=myfont)
