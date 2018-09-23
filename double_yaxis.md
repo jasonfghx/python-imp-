@@ -108,3 +108,5 @@ ax2.set_ylabel('電流',fontproperties=myfont)
 
 ax1.set_xlabel('時間',fontproperties=myfont)
 plt.show()
+
+![image](https://github.com/jasonfghx/python-imp-/blob/master/Capture.JPG)    
