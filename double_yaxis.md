@@ -21,6 +21,7 @@ ax2.set_xlabel('Same X for both exp(-x) and ln(x)')
 plt.show()
 
 ========================================================
+
 fig = plt.figure()
 ax1 = fig.add_subplot(111)
 ax1.plot(data1.index, data1["original cond (mS/cm)"], color='green', label='原水電導度')
