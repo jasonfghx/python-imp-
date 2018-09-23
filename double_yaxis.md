@@ -90,12 +90,19 @@ py.iplot(fig, filename='overlaid histogram')
 ============================SNS===========================================
 
 import matplotlib.pyplot as plt
+
 from matplotlib.font_manager import FontProperties
+
 import numpy as np
+
 x=dataset1["time(mins)"]
+
 y1=dataset1["conductivity(uS/cm)"]
+
 y2=dataset1["current(A)"]
+
 myfont = FontProperties(fname=r'E:\\ana\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\msjh.ttf')
+
 fig = plt.figure()
 
 ax1 = fig.add_subplot(111)
