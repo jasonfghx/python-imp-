@@ -1,0 +1,21 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.font_manager import FontProperties
+import pandas as pd
+import matplotlib 
+matplotlib.matplotlib_fname()
+abc=pd.read_csv("abc1.csv")
+#畫圖執行起點
+myfont = FontProperties(fname=r'E:\\ana\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\msjh.ttf')
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
+ax1.plot(abc.index, abc["x1"], color='green', label='放流水')
+ax1.plot(abc.index, abc["y1"],  color='skyblue', label='b')
+#ax1.plot(data1.index, data1["discharge (mS/cm)"], color='gray', label='放流水電導度')
+#ax1.plot(data1.index, data1["fresh"], color='fuchsia', label='淡水電導度')
+plt.xlabel('c')
+plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] 
+#plt.rcParams['axes.unicode_minus']=False 
+plt.ylabel('電導度',fontproperties=myfont)
+plt.legend(prop=myfont)
+plt.show()
