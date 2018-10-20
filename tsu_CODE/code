@@ -1,0 +1,20 @@
+import matplotlib.pyplot as plt 
+ import numpy as np 
+
+  import pandas as pd
+  sch=pd.read_csv("123.csv")
+  sch1=sch.iloc[:,0:16]
+  con=pd.read_csv("A.csv",header=None)
+  c1=con.drop(10,axis=1)
+  
+  c1.columns=["項 次","試壓包編號","系統名稱","Location","施工前","施工中","施工後","下包商","Final文件提送QC","查驗情況"]
+  c2=c1
+  ind=c2.iloc[:,1]
+for i in range(0,223):
+    if(sum(sch1["TP"]==ind[i])>0):
+        aa=np.where(sch1["TP"]==ind[i])[0][0]
+        j=sch1.iloc[aa,13:16]
+        bb=np.where(c2["試壓包編號"]==ind[i])[0]
+        bb=list(bb)
+        for k in range(0,len(bb)):
+            c2.iloc[bb[k],4:7]=j
