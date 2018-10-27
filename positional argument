@@ -1,0 +1,10 @@
+def add(*n):
+    re=0
+    for i in n:
+        re+=i
+    return re
+
+add(1,2,3,4,5) 
+
+
+15
