@@ -1,0 +1,6 @@
+word=["adam","b","c"]
+for i,w in enumerate(word):
+    print(i)
+    
+    
+    print(w)
