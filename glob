@@ -1,0 +1,6 @@
+import os 
+import glob
+os.chdir("F:\\bin1" )
+path=os.getcwd()
+print(os.listdir(path))
+print(glob.glob("*.docx"))
