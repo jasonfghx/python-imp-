@@ -1,0 +1,4 @@
+name = 'Adam'
+age = 18
+score = 87
+print("name={n}  age={a}".format(a=age,n=name))
