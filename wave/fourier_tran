@@ -1,1 +1,59 @@
 https://scipy.github.io/devdocs/tutorial/fftpack.html
+
+import plotly.offline as py
+import plotly.tools as tls
+import plotly.graph_objs as go
+py.init_notebook_mode(connected=True)
+%matplotlib inline
+import plotly.figure_factory as FF
+
+
+import sys
+import warnings
+
+from ipywidgets import interact, interactive, fixed
+import pandas as pd
+import ipywidgets as widgets
+from IPython.display import display
+
+trace0 = go.Scatter(
+    x=Y,
+    y=yy,
+    mode='markers',
+    marker=dict(
+        #color=['rgb(93, 164, 214)', 'rgb(255, 144, 14)',
+         #      'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
+        opacity=0.3,
+        color='rgb(126, 159, 126)',
+        
+        
+        #showscale= True
+    )
+)
+
+data = [trace0]
+
+layout = go.Layout(
+        title='cement - fly_ash',
+    xaxis=dict(
+        title='cement',
+        titlefont=dict(
+            family='Courier New, monospace',
+            size=18,
+            color='#7e9f7e'
+        )
+    ),
+    yaxis=dict(
+        title='fly_ash',
+        titlefont=dict(
+            family='Courier New, monospace',
+            size=18,
+            color='#7f7f7f'
+        )
+    )
+    
+    
+                )
+fig = go.Figure(data=data, layout=layout)
+
+py.iplot(fig, filename='bubblechart-color')
