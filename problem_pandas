@@ -1,0 +1,5 @@
+AttributeError: module 'pandas' has no attribute 'core'
+
+https://stackoverflow.com/questions/45357826/attributeerror-module-pandas-has-no-attribute-core?rq=1
+
+I have just encountered this problem and solved it. This is my solution way: use conda upgrade --all and then restart you notebook.
