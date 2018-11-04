@@ -1,0 +1,20 @@
+E:\
+
+C:\Users\reaction>cd E
+The system cannot find the path specified.
+
+C:\Users\reaction>cd E:
+E:\
+
+C:\Users\reaction>E:
+
+E:\>cd temp
+
+E:\temp>cd myproject
+
+E:\temp\myproject>ProgramData\Anaconda3\python.exe -m venv myvenv
+The system cannot find the path specified.
+
+E:\temp\myproject>C:\ProgramData\Anaconda3\python.exe -m venv myvenv
+
+E:\temp\myproject>
