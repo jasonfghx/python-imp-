@@ -1,0 +1,9 @@
+a=codecs.open("C:/Users/123/Desktop/123.txt","a")#附加 不read
+string="aaa"
+
+a=codecs.open("C:/Users/123/Desktop/123.txt","w") #複寫   不read
+a=codecs.open("C:/Users/123/Desktop/123.txt")#讀而已  不write
+
+a.write(string)
+a.close()
+
